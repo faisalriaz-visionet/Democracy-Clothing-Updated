@@ -1,0 +1,170 @@
+<div class="swell-rewards-democracy-clothing">
+  <div id="banner">
+    <div class="banner-image swell-mobile">
+      <img class="swell-mobile" src="{{ 'swell-banner-mob.jpg' | asset_url }}">
+    </div>
+    <div class="caption-content-holder">
+      <div class="caption-content">
+        <div class="banner-header">
+          <h3 class="banner-heading">Democracy <span>Rewards</span></h3>
+        </div>
+        <div class="swell-details">
+          As a rewards member, you’ll get closer to earning exclusive rewards every time you shop.
+        </div>
+      {% unless customer %}
+        <ul class="swell-link-list">
+          <li class="swell-link">
+            <a href="/account/register" class="sign-up-btn">sign Up
+            </a>
+          </li>
+          <li class="swell-link">
+            <a href="/account/login" class="sign-in-btn">sign In
+            </a>
+          </li>
+        </ul>
+      {% endunless %}
+      </div>
+    </div>
+    <div class="banner-image swell-desktop">
+      <img class="swell-desktop" src="{{ 'swell-banner.jpg' | asset_url }}">
+      {% unless customer %}
+      <div class="join-offer-holder"><p class="join-offer-content">10 points just for joining today!</p></div>
+      {% endunless %}
+    </div>
+  </div>
+  {% unless customer %}
+    <div class="swell-hiw-section">
+      <div class="swell-container">
+        <h3 class="swell-heading">How it works</h3>
+        <ul class="swell-hiw-items">
+          <li class="swell-hiw-item">
+            <div class="item-count"><span>1</span></div>
+            <div class="item-icon"><i class="swell-icon-create-account"></i></div>
+            <div class="item-heading">Create an account</div>
+            <div class="item-details">Join rewards program and<br> start earning.</div>
+          </li>
+          <li class="swell-hiw-item">
+            <div class="item-count"><span>2</span></div>
+            <div class="item-icon"><i class="swell-icon-earn"></i></div>
+            <div class="item-heading">Earn points</div>
+            <div class="item-details">Earn points every time<br> you shop.</div>
+          </li>
+          <li class="swell-hiw-item">
+            <div class="item-count"><span>3</span></div>
+           <div class="item-icon"><i class="swell-icon-redeem"></i></div>
+            <div class="item-heading">Redeem points</div>
+            <div class="item-details">Redeem points <br class="swell-mobile"/>for exclusive<br class="swell-desktop"/> discounts</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="swell-campaign-section">
+      <div class="swell-container">
+        <h3 class="swell-heading">Ways to Earn Points</h3>
+        <div class="swell-camapigns-holder">
+          <div class="camapign-image-holder"><img src="{{'swell-campaign.jpg' | asset_url }}"></div>
+          <div class="swell-campaign-list-holder">
+            <ul class="swell-campaign-list {% if customer %} logged-in {% endif %}">
+              <div class="swell-referral-loader">
+                <img src="{{ 'swell-loader.svg' | asset_url }}"/>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <div class="swell-user-info-section">
+      <div class="swell-user-content">
+        <h3 class="swell-heading">Hi, {{customer.first_name}}! <br>You have <span class="swell-point-balance">X</span> Points.</h3>
+        <ul class="swell-link-list">
+          <li class="swell-link">
+            <a href="/checkout" class="swell-redeem-btn">Redeem Now</a>
+          </li>
+          <li class="swell-link">
+            <a href="javascript:void(0);" class="swell-history-link">Rewards History</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  {% endunless %}
+  <div id="refer">
+    <div class="referral-holder">
+      <div class="refer-content-holder">
+        <h3 class="swell-heading">REFER A FRIEND</h3>
+        <div class="refer-content-header">
+          <h3 class="refer-heading">Give $20, Get $20</h3>
+        </div>
+        <ul class="swell-link-list">
+          <li class="swell-link">
+            <a href="/pages/refer" class="sign-in-btn">start referring now
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- refer section ends -->
+  <div class="earn-more">
+    <div class="swell-container">
+      <div class="vips-header">
+        <h3 class="swell-heading">VIPs Earn Even More</h3>
+      </div>
+      <div class="table-holder">
+        <ul class="swell-tier-list {% if customer %} logged-in {% endif %}">
+          <div class="swell-referral-loader">
+            <img src="{{ 'swell-loader.svg' | asset_url }}"/>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- tier table section ends -->
+  <div class="swell-redeem-section">
+    <div class="swell-container">
+      <div class="swell-redeem-holder">
+        <div class="swell-redeem-list-holder">
+          <h3 class="swell-heading">Claim your<br> award</h3>
+          <p class="swell-details">Redeeming your hard-earned points <br class="swell-mobile">is easy!<br class="swell-desktop"> Simply apply your points<br class="swell-mobile"> for a discount at checkout!</p>
+          <div class="point-ratio-holder"><span class="point-ratio">Every 100 points = $10</span></div>
+          <ul class="swell-redemption-option-list {% if customer %} logged-in {% endif %}">
+            <div class="swell-referral-loader swell-initialized-loader">
+              <img src="{{ 'swell-loader.svg' | asset_url }}"/>
+            </div>
+          </ul>
+        </div>
+        <div class="redeem-image-holder swell-desktop"><img src="{{'swell-redeem.jpg' | asset_url }}"></div>
+      </div>
+    </div>
+  </div>
+  <div class="swell-product-redemption-section">
+    <div class="swell-container">
+      <h3 class="swell-heading">Redeem for Products</h3>
+      <div class="swell-product-list-holder">
+        <ul class="swell-product-list {% if customer %} logged-in {% endif %}">
+          <div class="swell-referral-loader swell-initialized-loader">
+            <img src="{{ 'swell-loader.svg' | asset_url }}"/>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  {% if customer %}
+    <div class="swell-campaign-section">
+      <div class="swell-container">
+        <h3 class="swell-heading">Ways to Earn Points</h3>
+        <div class="swell-camapigns-holder">
+          <div class="camapign-image-holder"><img src="{{'swell-campaign.jpg' | asset_url }}"></div>
+          <div class="swell-campaign-list-holder">
+            <ul class="swell-campaign-list {% if customer %} logged-in {% endif %}">
+              <div class="swell-referral-loader">
+                <img src="{{ 'swell-loader.svg' | asset_url }}"/>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>

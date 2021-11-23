@@ -1,0 +1,645 @@
+<ul class="nav {{ class }}" role="tree">
+  {% for link in linklists[nav--main].links %}
+  {% if link.links != blank %}
+  {% assign link-title = link.title | strip %}
+
+  {% assign is-mega-menu = false %}
+  {% if section.blocks.size > 0 %}
+  {% for block in section.blocks %}
+  {% assign block-title = block.settings.mega-menu | strip %}
+  {% if block-title == link-title  %}
+  {% assign is-mega-menu = true %}
+  {% assign mega-menu-block = block %}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <li class="dropdown{% if is-mega-menu %} mega-menu{% endif %}">
+    <div class="mega-menu--dropdown-wrapper">
+      <a
+         class="dropdown-envy-toggle alt-focus header-link"
+         data-delay="200"
+         href="{{ link.url }}"
+         aria-expanded="false"
+         >
+        <span class="nav-label">{{ link.title | escape }}</span>
+        <i data-feather="chevron-down"></i>
+      </a>
+
+      <ul class="mega-menu-option dropdown-menu{% if is-mega-menu %} dropdown-menu--mega{% else %} dropdown-menu--standard{% endif %}">
+        {% if is-mega-menu %}
+
+        <div>
+
+          {% assign block = mega-menu-block %}
+
+          <div class="mega-menu-block" data-mega-menu-block-id="{{ block.id }}" {{ block.shopify_attributes }}>
+
+            {% assign urlGet = link.title | handle %}
+
+          
+
+            {% if link.links.size <= 3 %}
+            <div class="level-2__column">
+              {% for sub_link in link.links limit: mega_nav_column_count %}
+              {% assign i = forloop.index | downcase %}
+
+
+              {% if i == '1' %}
+
+              <ul class="level-2-subnav-group">
+                <li>
+                  {% if sub_link.links.size > 0 %}
+
+                  <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+                  <ul class="level-2-subnav-group">
+                    {% for sub_sub_link in sub_link.links %}
+                    <li>
+                      <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+                    </li>
+
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+                  {% endif %}
+                </li>
+              </ul>
+
+              {% endif %}
+              {% if i == '2' %}
+
+              <ul class="level-2-subnav-group">
+                <li>
+                  {% if sub_link.links.size > 0 %}
+                  <div class="level-2-separator"> </div>
+                  <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+                  <ul class="level-2-subnav-group">
+                    {% for sub_sub_link in sub_link.links %}
+                    <li>
+                      <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+                    </li>
+
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+
+                  {% endif %}
+                </li>
+              </ul>
+
+              {% endif %}
+
+
+              {% endfor %}
+
+            </div>
+            <div class="level-2__column">
+              {% for sub_link in link.links limit: mega_nav_column_count %}
+              {% assign i = forloop.index | downcase %}
+
+
+              {% if i == '3' %}
+
+              <ul class="level-2-subnav-group">
+                <li>
+
+                  {% if sub_link.links.size > 0 %}
+
+                  <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+                  <ul class="level-2-subnav-group">
+                    {% for sub_sub_link in sub_link.links %}
+                    <li>
+                      <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+                    </li>
+
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                  <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+                  {% endif %}
+                </li>
+              </ul>
+
+              {% endif %}
+
+              {% endfor %}
+            </div>
+            {% endif %}
+			      {% if link.links.size > 3 %}
+
+      {% if urlGet == 'clothing' %}
+      
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+        {% if i == '1' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '2' %}
+        <div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '3' %}
+        <div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+         {% if i == '4' %}
+		<div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% comment %}
+        {% if i == '5' %}
+		
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+           <div class="level-2-separator"> </div>
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+		{% endcomment %}
+        {% endfor %}
+
+      </div>
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+
+        {% if i == '5' %}
+		
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+
+        {% endfor %}
+      </div>
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+
+       
+
+        {% if i == '6' %}
+        
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+            
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '7' %}
+		<div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '8' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+		{% if i == '9' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed"><a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a></div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% comment %}
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+
+        {% if i == '10' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+
+        {% endfor %}
+      </div>
+      {% endcomment %}
+      {% else %}
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+        {% if i == '1' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '2' %}
+        <div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+
+
+        {% endfor %}
+
+      </div>
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+        {% if i == '3' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+        {% if i == '4' %}
+        <div class="level-2-separator"> </div>
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+
+        {% endfor %}
+      </div>
+
+
+      <div class="level-2__column">
+        {% for sub_link in link.links %}
+        {% assign i = forloop.index | downcase %}
+
+
+        {% if i == '5' %}
+
+        <ul class="level-2-subnav-group">
+          <li>
+
+            {% if sub_link.links.size > 0 %}
+
+            <div class="level-2-subnav-group-hed">{{ sub_link.title | escape }}</div>
+            <ul class="level-2-subnav-group">
+              {% for sub_sub_link in sub_link.links %}
+              <li>
+                <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title | escape }}</a>
+              </li>
+
+              {% endfor %}
+            </ul>
+            {% else %}
+            <a href="{{ sub_link.url }}">{{ sub_link.title | escape }}</a>
+            {% endif %}
+          </li>
+        </ul>
+
+        {% endif %}
+
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% endif %}
+      {% if block.settings.mega_image_link_1 %}
+      <div class="level-2__column">
+
+
+        <a href="{{ block.settings.mega_image_link_1 }}">
+
+          <img src="{{ block.settings.mega_image_1 | img_url: '335x500' }}" alt="" />
+
+
+        </a>
+
+
+      </div>
+      {% endif %}
+
+          </div>
+
+        </div>
+
+        {% else %}
+
+        {% for sub_link in link.links %}
+        {% if sub_link.levels > 0 %}
+        <li class="dropdown-submenu">
+          <a
+             class="dropdown-submenu__link"
+             href="{{ sub_link.url }}"
+             aria-expanded="false"
+             >
+            {{ sub_link.title | escape }}
+            <svg class="feather feather-chevron-right" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </a>
+          <ul class="dropdown-menu">
+            {% for sub_sub_link in sub_link.links %}
+            <li>
+              <a 
+                 class="dropdown-submenu__link" 
+                 href="{{ sub_sub_link.url }}"
+                 >
+                {{ sub_sub_link.title | escape }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% else %}
+        <li>
+          <a
+             class="dropdown-submenu__link" 
+             href="{{ sub_link.url }}"
+             >
+            {{ sub_link.title | escape }}
+          </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% endif %}
+      </ul>
+
+    </div>
+
+  </li>
+
+  {% else %}
+
+  <li {% if link.active %}class="site-nav--active"{% endif %}>
+    <a href="{{ link.url }}" class="header-link alt-focus" >{{ link.title }}</a>
+  </li>
+
+  {% endif %}
+
+  {% endfor %}
+</ul>

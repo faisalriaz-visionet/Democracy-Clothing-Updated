@@ -1,0 +1,326 @@
+{% if section.settings.api_key != blank and section.settings.map_address != blank %}
+  {% assign map_visible = true %}
+{% else %}
+  {% assign map_visible = false %}
+{% endif %}
+
+<section
+  class="homepage-map-content{% if section.settings.api_key == blank %} homepage-map--fallback--mobile-image{% endif %}{% if section.settings.background_image != blank %} homepage-map--fallback--has-fallback{% endif %}"
+  data-wetheme-section-type="store-information--map"
+  data-wetheme-section-id="{{ section.id }}"
+  data-maps-apikey="{{ section.settings.api_key | escape }}"
+  data-maps-address="{{ section.settings.map_address | escape }}"
+>
+  <script type="application/json" class="map-theme">
+    {% render 'map-json' %}
+  </script>
+
+  <div class="map-row__text-wrapper d-none d-sm-block">
+    <div class="map-row__text-container wow fadeInUp">
+      {% if section.settings.title != blank or section.settings.subheading != blank %}
+        <div class="title-bar custom-font">
+          {% if section.settings.subheading != blank %}
+            <h3 class="type-subheading type-subheading--1 wow fadeIn{% if section.settings.title != blank %} typography--padding-bottom{% endif %}">{{ section.settings.subheading | escape }}</h3>
+          {% endif %}
+          {% if section.settings.title != blank %}
+            <h2 class="wow fadeIn{% if section.settings.subheading != blank %} delay-1{% endif %}">{{ section.settings.title | escape }}</h2>
+          {% endif %}
+        </div>
+      {% endif %}
+      {% if section.settings.address != blank %}
+          <div class="rte featured-row__subtext textarea">{{ section.settings.address }}</div>
+      {% endif %}
+      {% if section.settings.button_text != blank and section.settings.button_text != blank %}
+          <a href="https://maps.google.com?daddr={{ section.settings.map_address | escape }}" class="btn" target="_blank">
+              {{ section.settings.button_text | escape }}
+          </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="map-row__item h-100">
+    <div class="map-wrapper h-100">
+      {% if map_visible %}
+        <div id="map-container-{{ section.id }}" class="map-section__container">
+        </div>
+        <div class="map-section__overlay" data-map-overlay></div>
+      {% endif %}
+      {% if section.settings.background_image != blank %}
+        <div class="img homepage-map--fallback{% if map_visible %} hide{% endif %}">
+            {% render 'responsive-image' with section.settings.background_image, alt: section.settings.background_image.alt, class: 'feature-row__image' %}
+        </div>
+      {% else %}
+        <div class="homepage-map--fallback h-100{% if map_visible %} hide {% endif %}">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'icon--placeholder' }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+<section class="mobile--map-wrapper map-row__item map-row__text map-row__text--left d-block d-sm-none">
+  <div class="map-row__text-container">
+    {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title | escape }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <h3>{{ section.settings.subheading | escape }}</h3>
+    {% endif %}
+    {% if section.settings.address != blank %}
+      <div class="rte featured-row__subtext textarea">{{ section.settings.address }}</div>
+    {% endif %}
+    {% if section.settings.button_text != blank and section.settings.button_text != blank %}
+      <a
+        href="https://maps.google.com?daddr={{ section.settings.map_address | escape }}"
+        class="btn"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {{ section.settings.button_text | escape }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+
+{% schema %}
+{
+    "name": {
+        "en": "Map",
+        "de": "Karte",
+        "es": "Mapa",
+        "fr": "Carte",
+        "pt-PT": "Mapa"
+    },
+    "class": "homepage-section--map-wrapper",
+    "settings": [
+        {
+            "type": "text",
+            "id": "subheading",
+            "label": {
+              "en": "Subheading",
+              "de": "Unterüberschrift",
+              "es": "Subencabezado",
+              "fr": "Sous-rubrique",
+              "pt-PT": "Subtítulo"
+            }
+        },
+        {
+            "id": "title",
+            "type": "text",
+            "label": {
+                "en": "Heading",
+                "de": "Überschrift",
+                "es": "Encabezado",
+                "fr": "Rubrique",
+                "pt-PT": "Título"
+            },
+            "default": {
+                "en": "Our Store",
+                "de": "Unser Store",
+                "es": "Nuestra tienda",
+                "fr": "Notre magasin",
+                "pt-PT": "A nossa loja"
+            }
+        },
+        {
+            "id": "address",
+            "type": "richtext",
+            "label": {
+                "en": "Address and hours",
+                "de": "Adresse und Stunden",
+                "es": "Dirección y horario",
+                "fr": "Adresse et horaires",
+                "pt-PT": "Morada e horário de funcionamento"
+            },
+            "default": {
+                "en": "<p>123 Fake St.<br>Toronto, Canada</p><p>Mon - Fri, 10am - 9pm<br>Saturday, 11am - 9pm<br>Sunday, 11am - 5pm</p>",
+                "de": "<p>123 Fake St.<br>Toronto, Kanada</p><p>Mo–Fr, 10–21 Uhr<br>Samstag, 11–21 Uhr<br>Sonntag, 11–17 Uhr</p>",
+                "es": "<p>Calle Inventada 123 <br>Toronto, Canada</p><p>Lunes - Viernes, 10am - 9pm<br>Sábados, 11am - 9pm<br>Domingos, 11am - 5pm</p>",
+                "fr": "<p>123 Fake St.<br>Toronto, Canada</p><p>Lundi - vendredi, 10 h à 21 h<br>Samedi, 11 h à 21 h<br>Dimanche, 11 h à 17 h</p>",
+                "pt-PT": "<p>123 Fake St.<br>Toronto, Canadá</p><p>Seg - Sex, 10h - 21h<br>Sábado, 11h - 21h<br>Domingo, 11h - 17h</p>"
+            }
+        },
+        {
+            "id": "map_address",
+            "type": "text",
+            "label": {
+                "en": "Map address",
+                "de": "Kartenadresse",
+                "es": "Dirección en el mapa",
+                "fr": "Adresse de la carte",
+                "pt-PT": "Endereço do mapa"
+            },
+            "info": {
+                "en": "Google Maps will find the exact location",
+                "de": "Google Maps wird den genauen Standort finden",
+                "es": "Google Maps encontrará la ubicación exacta",
+                "fr": "Google Maps trouvera l'emplacement exact",
+                "pt-PT": "O Google Maps irá encontrar a localização exata"
+            },
+            "default": {
+                "en": "80 Spadina Ave, Toronto",
+                "de": "80 Spadina Ave, Toronto",
+                "es": "80 Spadina Ave, Toronto",
+                "fr": "80, avenue Spadina, Toronto",
+                "pt-PT": "80 Spadina Ave, Toronto"
+            }
+        },
+        {
+         "type": "select",
+         "id": "mapStyle",
+         "label": {
+           "en": "Map style",
+           "de": "Kartenstil",
+           "es": "Estilo de mapa",
+           "fr": "Style de carte",
+           "pt-PT": "Estilo do mapa"
+         },
+         "options": [
+           {
+             "value": "standard",
+             "label": {
+               "en": "Standard",
+               "de": "Standard",
+               "es": "Estándar",
+               "fr": "Norme",
+               "pt-PT": "Padrão"
+             }
+           },
+           {
+             "value": "silver",
+             "label": {
+               "en": "Silver",
+               "de": "Silber",
+               "es": "Plata",
+               "fr": "Argent",
+               "pt-PT": "Prata"
+             }
+           },
+           {
+             "value": "retro",
+             "label": {
+               "en": "Retro",
+               "de": "Retro",
+               "es": "Retro",
+               "fr": "Rétro",
+               "pt-PT": "Retro"
+             }
+           },
+           {
+             "value": "dark",
+             "label": {
+               "en": "Dark",
+               "de": "Dunkel",
+               "es": "Oscuro",
+               "fr": "Foncé",
+               "pt-PT": "Sombrio"
+             }
+           },
+           {
+             "value": "night",
+             "label": {
+               "en": "Night",
+               "de": "Nacht",
+               "es": "Noche",
+               "fr": "Nuit",
+               "pt-PT": "Noite"
+             }
+           },
+           {
+             "value": "aubergine",
+             "label": {
+               "en": "Aubergine",
+               "de": "Aubergine",
+               "es": "Berenjena",
+               "fr": "Aubergine",
+               "pt-PT": "Beringela"
+             }
+           }
+         ],
+         "default": "standard"
+        },
+        {
+            "id": "api_key",
+            "type": "text",
+            "label": {
+                "en": "Google Maps API key",
+                "de": "Google Maps API-Schlüssel",
+                "es": "Llave API Google Maps",
+                "fr": "Clé API de Google Maps",
+                "pt-PT": "Chave API do Google Maps"
+            },
+            "info": {
+                "en": "You’ll need to [register a Google Maps API Key](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) to display the map",
+                "de": "Sie müssen [einen Google Maps API-Schlüssel registrieren](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key), um die Karte anzuzeigen",
+                "es": "Necesita [registrar una llave API de Google Maps](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) para mostrar el mapa",
+                "fr": "Vous devrez [enregistrer une clé API de Google Maps](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) pour afficher la carte.",
+                "pt-PT": "Tem de [registar uma chave API do Google Maps](https://help.shopify.com/manual/using-themes/troubleshooting/map-section-api-key) para visualizar o mapa"
+            }
+        },
+        {
+            "id": "button_text",
+            "type": "text",
+            "label": {
+                "en": "Map link label",
+                "de": "Kartenlink-Bezeichnung",
+                "es": "Etiqueta enlace al mapa",
+                "fr": "Étiquette du lien de la carte",
+                "pt-PT": "Etiqueta da ligação do mapa"
+            },
+            "default": {
+                "en": "Get directions",
+                "de": "Wegbeschreibung erhalten",
+                "es": "Conseguir dirección",
+                "fr": "Obtenez les indications",
+                "pt-PT": "Obter direções"
+            }
+        },
+        {
+            "type": "header",
+            "content": {
+                "en": "Background",
+                "de": "Hintergrund",
+                "es": "Fondo",
+                "fr": "Contexte général",
+                "pt-PT": "Fundo"
+            }
+        },
+        {
+            "type": "image_picker",
+            "id": "background_image",
+            "label": {
+                "en": "Image",
+                "de": "Bild",
+                "es": "Imagen",
+                "fr": "Image",
+                "pt-PT": "Imagem"
+            },
+            "info": {
+                "en": "Displayed if the map isn’t loaded",
+                "de": "Angezeigt, wenn die Karte nicht lädt",
+                "es": "Se mostrará si el mapa no se carga",
+                "fr": "Affiché si la carte n'est pas chargée",
+                "pt-PT": "Exibido se o mapa não carregar"
+            }
+        }
+    ],
+    "presets": [
+        {
+            "name": {
+                "en": "Map",
+                "de": "Karte",
+                "es": "Mapa",
+                "fr": "Carte",
+                "pt-PT": "Mapa"
+            },
+            "category": {
+                "en": "Store information",
+                "de": "Store-Informationen",
+                "es": "Información de la tienda",
+                "fr": "Informations sur le magasin",
+                "pt-PT": "Informação sobre a loja"
+            }
+        }
+    ]
+}
+{% endschema %}

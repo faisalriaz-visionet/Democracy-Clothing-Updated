@@ -1,0 +1,244 @@
+{% assign crop_setting = settings.product-grid %}
+{% assign image_crop = nil %}
+{% if crop_setting == "square" %}
+{% assign image_crop = "aspect-ratio--square" %}
+{% elsif crop_setting == "tall" %}
+{% assign image_crop = "aspect-ratio--tall" %}
+{% elsif crop_setting == "wide" %}
+{% assign image_crop = "aspect-ratio--wide" %}
+{% endif %}
+
+<!-- Display All Colors   -->
+{% if variantObject %}
+	{% assign productUrl = variantObject.url | within: collection %}
+	{% assign productPrice = variantObject.price  %}
+	{% assign prod_id = variantObject.id %}
+	{% assign productComparePrice = variantObject.compare_at_price %}
+	{% if variantObject.featured_image %}
+		{% assign productImageSrc = variantObject.featured_image.src %}
+		{% assign productImageAlt = variantObject.featured_image.alt %}
+	{% else %}
+		{% assign productImageSrc = liquidObject.media[0].preview_image %}
+		{% assign productImageAlt = liquidObject.media[0].alt %}
+	{% endif %}
+{% else %}
+	{% assign prod_id = liquidObject.id %}
+	{% assign productUrl = liquidObject.url | within: collection %}
+	{% assign productPrice = liquidObject.price  %}
+	{% assign productComparePrice = liquidObject.compare_at_price_max %}
+	{% assign productImageSrc = liquidObject.media[0].preview_image %}
+	{% assign productImageAlt = liquidObject.media[0].alt %}
+{% endif %}
+<!-- Display All Colors   -->
+
+<article class="indiv-product" data-limoniapps-discountninja-product-handle="{{ liquidObject.handle }}" data-limoniapps-discountninja-product-collections="{{ liquidObject.collections | map: 'handle' | join: ',' }}" data-limoniapps-discountninja-product-available="{{ liquidObject.available}}" data-limoniapps-discountninja-product-price="{{ liquidObject.price}}" data-limoniapps-discountninja-product-compareatprice="{{ liquidObject.compare_at_price_max}}" data-limoniapps-discountninja-product-pricevaries="{{ liquidObject.price_varies}}" data-limoniapps-discountninja-product-pricemin="{{ liquidObject.price_min}}" data-limoniapps-discountninja-product-tags="{{ liquidObject.tags | join: ',' }}">
+
+  <script type="application/json" id="product-grid-{{ liquidObject.id }}" class="product-grid-json">
+    {{ liquidObject | json }}
+  </script>
+
+
+  {% case settings.hover-effect %}
+
+  {% when 'none' %}
+
+  <a
+     class="grid__image"
+     href="{{ liquidObject.url | within: collection }}"
+     title="{{ liquidObject.title | escape }}"
+     tabindex="-1"
+     >
+    {% if image_crop %}<div class="aspect-ratio {{ image_crop }}">{% endif %}
+    {% render 'responsive-image' with productImageSrc, alt: productImageAlt %}
+    {% if image_crop %}</div>{% endif %}
+  </a>
+
+  {% when 'second-image' %}
+
+  {% if liquidObject.media.size > 1 %}
+  <div class="reveal">
+    <a
+       class="grid__image"
+       href="{{ liquidObject.url | within: collection }}"
+       title="{{ liquidObject.title | escape }}"
+       tabindex="-1"
+       >
+      {% if image_crop %}<div class="aspect-ratio {{ image_crop }}">{% endif %}
+      {% render 'responsive-image' with productImageSrc, alt: productImageAlt %}
+      <div class="hidden">
+        {% render 'responsive-image' with liquidObject.media[1].preview_image, alt: liquidObject.media[1].alt %}
+      </div>
+      {% if image_crop %}</div>{% endif %}
+    </a>
+  </div>
+  {% else %}
+  <a
+     class="grid__image"
+     href="{{ liquidObject.url | within: collection }}"
+     title="{{ liquidObject.title | escape }}"
+     tabindex="-1"
+     >
+    {% if image_crop %}<div class="aspect-ratio {{ image_crop }}">{% endif %}
+    {% render 'responsive-image' with productImageSrc, alt: productImageAlt %}
+    {% if image_crop %}</div>{% endif %}
+  </a>
+  {% endif %}
+
+  {% when 'zoom' %}
+
+  <div class="collection-image--zoom-effect">
+    <div class="zoom-effect--inner">
+      <a
+         class="grid__image"
+         href="{{ productUrl }}"
+         title="{{ liquidObject.title | escape }}"
+         tabindex="-1"
+         >
+        {% if image_crop %}<div class="aspect-ratio {{ image_crop }}">{% endif %}
+        {% render 'responsive-image' with productImageSrc, alt: productImageAlt %}
+        {% if image_crop %}</div>{% endif %}
+      </a>
+    </div>
+  </div>
+            <div class="yotpo bottomLine"
+  data-product-id="{{ liquidObject.id }}">
+{%- assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+{%- assign time_now = 'now' | date: '%s' %}
+{%- assign yotpo_live_time = shop.metafields.yotpo.yotpo_live | date: '%s' %}
+{%- assign diff_seconds_from_live = time_now | minus: yotpo_live_time %}
+{%- assign yotpo_bottomline_last_updated = product.metafields.yotpo.bottomline_update_time | date: '%s' %}
+{%- assign diff_seconds_from_last_bottomline_update = time_now | minus: yotpo_bottomline_last_updated %}
+{%- if yotpo_live_time and diff_seconds_from_live < 86400 and yotpo_bottomline_last_updated and diff_seconds_from_last_bottomline_update < 86400 -%}
+ {%- assign yotpo_bottomline_obsolete = false %}
+{%- else %}
+ {%- assign yotpo_bottomline_obsolete = true %}
+{%- endif %}
+{%- if yotpo_offload_content == 'yes' and yotpo_bottomline_obsolete != true -%}
+ {{ product.metafields.yotpo.bottomline }}
+{%- endif %}
+</div>
+
+  {% endcase %}
+
+  <div class="hp-title">
+
+    {% if settings.show_vendor %}
+    <div class="indiv-product-vendor-text">{{ liquidObject.vendor | link_to_vendor }}</div>
+    {% endif %}
+
+    <a href="{{ productUrl }}" class="indiv-product__link">
+
+      <span class="indiv-product-title-text">{{ liquidObject.title }}</span>
+
+      <div style="text-align:center">
+
+      <span class="money-styling limoniapps-discountninja-productprice limoniapps-discountninja-align-center">
+
+        {% if productComparePrice > productPrice %}
+        <span class="compare-at-price">
+          <span class="money">{{ productComparePrice | money }}</span>
+        </span>
+        {% endif %}
+
+        {% if liquidObject.price_varies %}
+        <small>{{ 'products.general.from' | t }}</small> <span class="money">{{ productPrice | money }}</span>
+        {% else %}
+        <span class="money">{{ productPrice | money }}</span>
+        {% endif %}
+
+        {% assign first_variant = liquidObject.variants[0] %}
+        {% render 'unit-price-measurement-grid', variant: first_variant %}
+
+      </span>
+
+      {% if settings.show_reviews %}
+      <span class="shopify-product-reviews-badge" data-id="{{ liquidObject.id }}"></span>
+      {% endif %}
+
+    </a>
+  </div>
+
+  {% if settings.show_swatches != blank %}
+  {% for option in liquidObject.options %}
+  {% capture downcased_option %}{{ option | downcase }}{% endcapture %}
+  {% assign option_handle = option | handle %}
+  {% assign option_index = forloop.index0 %}
+  
+  {% assign color_option_name = settings.show_swatches | downcase %}
+
+  {% if downcased_option == color_option_name %}
+  {% if liquidObject.variants.size > 1 %}
+  <fieldset>
+    <div data-option-index="{{ prod_id }}" class="{{ option_handle }} options indiv-product__swatches">
+      {% assign values = '' %}
+
+      <legend class="sr-only">{{ option_handle }}</legend>
+
+      {% for variant in liquidObject.variants %}
+      <div class="position-relative">
+        {% assign variantID = variant.id %}
+
+        {% assign value = variant.options[option_index] %}
+        {% assign splitValue = value | handle %}
+        {% capture wrapped_value %},{{ value }},{% endcapture %}
+        {% unless values contains wrapped_value %}
+
+        {% if variant.image %}
+        {% assign image = variant.image | product_img_url: '400x' %}
+        {% else %}
+        {% assign image = liquidObject.media[0].preview_image | product_img_url: '400x' %}
+        {% endif %}
+
+        <input
+               class="{{ splitColor }}"
+               id="section-{{ section.id }}-swatch-{{ prod_id }}-{{ value | handle }}"
+               type="radio"
+               name="option-{{ prod_id }}"
+               value="{{ value | escape }}"
+               data-href="{{ image }}"
+               {% if splitColor == splitValue %} checked {% endif %}
+               />
+
+        <label
+               for="section-{{ section.id }}-swatch-{{ prod_id }}-{{ value | handle }}"
+               style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.png' | file_url }};)"
+               >
+          <span class="sr-only">{{ value | handle }}</span>
+          <img class="crossed-out" src="{{ 'soldout_color.svg' | asset_url }}" alt="" />
+        </label>
+
+
+        {% capture values %}{{ values }}{{ wrapped_value }}{% endcapture %}
+        {% endunless %}
+      </div>
+      {% endfor %}
+    </div>
+  </fieldset>
+  {% endif %}
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+
+  {% if liquidObject.available %}
+  {% assign final_sale_text = settings.final_sale_text %}
+  {% if product.tags contains final_sale_text %}
+  <div class="envy-badge final-sale-badge">{{ 'products.general.final_sale' | t }}</div>
+  {% else %}
+  {% if liquidObject.compare_at_price_max > liquidObject.price and settings.sale_badge %}
+  <div class="envy-badge sale-badge">{{ 'products.general.sale' | t }}</div>
+  {% endif %}
+  {% endif %}
+
+  {% elsif settings.sold_out_badge %}
+  <div class="envy-badge sold-out-badge">{{ 'products.product.sold_out' | t }}</div>
+  {% endif %}
+
+  {% if settings.plus_size_badge %}
+  {% assign plus_size_text = settings.plus_size_text %}
+  {% if product.tags contains plus_size_text %}
+  <div class="envy-badge plus-size-badge">{{ 'products.product.plus_size' | t }}</div>
+  {% endif %}
+  {% endif %}
+
+</article>

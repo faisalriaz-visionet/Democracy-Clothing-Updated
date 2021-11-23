@@ -1,0 +1,114 @@
+<div class="order-summary__section order-summary__section--swell" style="display:none;" id="swell-checkout">
+  <div style="display:none;">
+    <span id="swell-checkout-customer-id">{{ customer.id }}</span>
+    <span id="swell-checkout-customer-email">{{ customer.email }}</span>
+    <span id="swell-checkout-customer-tags">{{ customer.tags | json }}</span>
+  </div>
+  <div class="swell-wrapper" style="line-height: 22px;">
+    <div class="balance">
+    <strong>You have <span class="swell-point-balance">X</span> points.</strong>
+    </div>
+  </div>
+
+  <div class="swell-checkout-error-message" id="swell-checkout-error-message-amount" style="display:none;color:red;">Oops, You don't have enough points to redeem yet.</div>
+  <div class="swell-checkout-error-message" id="swell-checkout-error-message-general" style="display:none;color:red;">Sorry something went wrong. Try again and if the problem persists please contact support.</div>
+  <div class="fieldset" style="margin-top: 15px;">
+    <div class="field">
+      <div class="field__input-btn-wrapper">
+        <div class="field__input-wrapper field__input-wrapper--select">
+          <label class="field__label">Redeem Points</label>
+          <select class="field__input field__input--select" id="swell-checkout-redemption-options"></select>
+          <div class="swell-selection-arrow">
+            <svg width="12" height="6" xmlns="http://www.w3.org/2000/svg" class="icon-svg icon-svg--size-11 visually-hidden-on-mobile" fill="#000"><path d="M.504 1.813l4.358 3.845.496.438.496-.438 4.642-4.096L9.504.438 4.862 4.534h.992L1.496.69.504 1.812z"></path></svg>
+          </div>
+        </div>
+
+        <button type="submit" id="swell-checkout-redeem-btn"  style="height:45px;" class="field__input-btn btn btn--default btn--disabled swell-button" disabled="true">
+        <span class="btn__content visually-hidden-on-mobile">Apply</span>
+        <svg class="icon-svg icon-svg--size-16 btn__icon shown-on-mobile" aria-hidden="true" focusable="false"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow"></use> </svg>
+        <svg class="icon-svg icon-svg--size-18 btn__spinner icon-svg--spinner-button" aria-hidden="true" focusable="false"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#spinner-button"></use> </svg>
+      	</button>
+      </div>
+    </div>
+  </div>
+  <div class="swell-wrapper" style="line-height: 22px;">
+    <div class="balance">
+    <strong>You can only use a rewards redemption or a coupon code. They cannot be used together.</strong>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="https://cdn.swellrewards.com/loader/ffr_ey6agTkD3aDHHqx7ag.js?shop=www-democracyclothing-com.myshopify.com"></script>
+
+<style type="text/css">
+  .field__input.field__input--select{
+    color: #333;
+  }
+  .swell-button{
+    color: #fff;
+  }
+  .balance{
+    color: #333;
+  }
+  .field__input-wrapper{
+    position: relative;
+  }
+  .swell-selection-arrow{
+    position: absolute;
+    height: 100%;
+    right: 5%;
+    top: 0;
+    left: unset;
+    bottom: unset;
+    color: #ccc;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
+<script type="text/javascript">
+
+  $('#swell-checkout-redemption-options').on('change', function (e) {
+    var valueSelected = this.value;
+    if(valueSelected != null){
+      $("#swell-checkout-redeem-btn").attr("disabled",false);
+    }else{
+      $("#swell-checkout-redeem-btn").attr("disabled",true);
+    }
+  });
+
+  if($(window).width() < 1000)
+  {
+    $("[data-trekkie-id='order_summary_toggle']").click();
+  }
+  $(document).ready(function() {
+    $(document).on("swell:initialized", function() {
+      Swell.Checkout.selectors.mobileRedeemButtonContent = 'svg.btn__content';
+    });
+
+    $(document).on("swell:setup", function() {
+      $("#swell-checkout-redemption-options").prepend('<option selected="selected" value="" disabled="true">Choose your reward</option>');
+      var redemptions = spapi.activeRedemptionOptions;
+      redemptions.forEach(function(redemption) {
+        if (redemption.discount_type != "fixed_amount") {
+          $("#swell-checkout-redemption-options option[value='"+redemption.id+"']").remove();
+        }
+      });
+
+      Swell.Checkout.showLoadingSpinner = function() {
+        $('#swell-checkout-redeem-btn').addClass('btn--loading');
+        $('#swell-checkout-redeem-btn .icon-svg--spinner-button').css('opacity', '1');
+        $('#swell-checkout-redeem-btn .icon-svg--spinner-button').css( 'animation', 'rotate 0.5s linear infinite');
+        $('#swell-checkout-redeem-btn .icon-svg--spinner-button').show();
+      }
+
+      Swell.Checkout.hideLoadingSpinner = function() {
+        $('#swell-checkout-redeem-btn .icon-svg--spinner-button').hide();
+        $('#swell-checkout-redeem-btn .icon-svg--spinner-button').css('opacity', '0');
+        $('#swell-checkout-redeem-btn').removeClass('btn--loading');
+      }
+    });
+    
+  });
+</script>

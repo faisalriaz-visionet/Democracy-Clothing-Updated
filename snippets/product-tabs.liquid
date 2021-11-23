@@ -1,0 +1,41 @@
+{% assign ns = 'product-tabs' %}
+
+{% assign description = product.description %}
+{% assign sizing_fit = product.metafields.accentuate.tab_sizing_fit %}
+{% assign fabric_care = product.metafields.accentuate.tab_fabric_care %}
+
+{% if description != blank %}
+  <div class="{{ ns }}">
+    <ul class="{{ ns }}__nav">
+      <li class="{{ ns }}__nav-item focused">
+        {{ 'Description' }}
+      </li>
+      {% if sizing_fit != blank %}
+        <li class="{{ ns }}__nav-item">
+          {{ 'Sizing & Fit' }}
+        </li>
+      {% endif %}
+      {% if fabric_care != blank %}
+        <li class="{{ ns }}__nav-item">
+          {{ 'Fabric & Care' }}
+        </li>
+      {% endif %}
+    </ul>
+
+    <div class="{{ ns }}__content">
+      <div class="{{ ns }}__content-item focused description">
+        {{ description }}
+      </div>
+      {% if sizing_fit != blank %}
+        <div class="{{ ns }}__content-item">
+          {{ sizing_fit }}
+        </div>
+      {% endif %}
+      {% if fabric_care != blank %}
+        <div class="{{ ns }}__content-item">
+          {{ fabric_care }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

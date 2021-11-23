@@ -1,0 +1,699 @@
+{% if section.settings.tags_enable and section.settings.sort_enable %}
+<style>
+@media only screen and (max-width: 574px) {
+	.collection-page--sort-by {
+		margin-top: 20px;
+	}
+}
+</style>
+{% endif %}
+
+{% if section.settings.collection_image_enable %}
+	<style>
+	#main-navigation-wrapper{
+		margin-bottom: 0px;
+	}
+	</style>
+
+	{% if collection.image %}
+		<div class="collection-image-wrapper">
+			{% render 'responsive-image' with collection.image, alt: collection.image.alt %}
+		</div>
+	{% endif %}
+{% endif %}
+
+<div class="container" data-wetheme-section-type="template--collection" data-wetheme-section-id="{{ section.id }}">
+
+  {%- assign limit = section.settings.grid | times: section.settings.rows -%}
+  {% paginate collection.products by limit %}
+
+  <div data-section-id="{{ section.id }}" data-section-type="collection-template">
+
+    <div id="collections-main" class="{{ collection.handle }}">
+      <div class="title-bar custom-font collection-header{% if collection.image and section.settings.collection_image_enable %} collection-header--with-image{% endif %}">
+        {% if collection.handle == 'all' %}
+            <h1>{{ 'products.general.products_title' | t }}</h1>
+        {% else %}
+            <h1>{{ collection.title }}</h1>
+        {% endif %}
+        <div class="clear"></div>
+      </div>
+
+    	{% if collection.description != empty %}
+    		<div class="description-content">{{ collection.description }}</div>
+    	{% endif %}
+    </div>
+
+    {% if section.settings.tags_enable or section.settings.sort_enable %}
+    <div class="filters-toolbar row">
+        {% if section.settings.tags_enable %}
+            <div class="col-md-3 col-sm-6">
+
+                <div class="clearfix filter">
+                    <wetheme-dropdown>
+                        <label for="sort-by">{{ 'collections.filters.title_tags' | t }}</label>
+                        <select class="coll-filter" id="filter-dropdown" onchange="redirect()">
+                            <option value="">{{ 'collections.filters.all_tags' | t }}</option>
+                            {% for tag in collection.all_tags %}
+                                {% if current_tags contains tag %}
+                                    <option value="{{ tag | handle }}" selected>{{ tag }}</option>
+                                {% else %}
+                                    <option value="{{ tag | handle }}">{{ tag }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </wetheme-dropdown>
+                </div>
+				{% comment %}
+                <div id="link-to-tag-generic" style="display: none; visibility: hidden;">
+                    {{ 'tag' | link_to_tag: 'tag' }}"
+                </div>
+                {% endcomment %}
+                {% if collection.handle %}
+                    <input type="hidden" id="link-to-collection" value="{{ collection.url }}" />
+                {% elsif collection.products.first.type == collection.title %}
+                    <input type="hidden" id="link-to-collection" value="{{ collection.title | url_for_type }}" />
+                {% elsif collection.products.first.vendor == collection.title %}
+                    <input type="hidden" id="link-to-collection" value="{{ collection.title | url_for_vendor }}" />
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if section.settings.sort_enable %}
+            <div class="collection-page--sort-by col-md-3 col-sm-6 {% if section.settings.tags_enable %}offset-md-6{% endif %}">
+                {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                <wetheme-dropdown>
+                    <label for="sort-by">{{ 'collections.sorting.title' | t }}</label>
+                    <select id="sort-by">
+                        <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+                        <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+                        <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+                        <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+                        <option value="title-descending" {% if sort_by == 'itle-descending' %}selected{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+                        <option value="created-ascending" {% if sort_by == 'created-ascending' %}selected{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+                        <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+                        <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+                    </select>
+                </wetheme-dropdown>
+                <input class="collection-header__default-sort" type="hidden" value="{{ collection.default_sort_by }}">
+            </div>
+
+            <input type="hidden" id="collection-sort-by" value="{{ collection.sort_by | default: collection.default_sort_by | escape }}" />
+        {% endif %}
+    </div>
+{% endif %}
+
+  <div class="page-width row" id="Collection">
+
+{% if section.settings.enable_collection_sidebar %}
+
+		{% if section.blocks.size > 0 %}
+
+			<div class="col-md-3" id="collection-sidebar">
+
+				{% for block in section.blocks %}
+
+					{% case block.type %}
+
+						{% when 'vendors' %}
+
+							<div class="collection-sidebar--section" {{ block.shopify_attributes }}>
+								<h2>{{ block.settings.title }}</h2>
+								<svg class="chevron-right global-transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+
+								<ul>
+									{% for product_vendor in shop.vendors %}
+									{% assign its_a_match = false %}
+									{% capture my_collection_handle %} {{ product_vendor | handleize | strip | escape  }} {% endcapture %}
+									{% assign my_collection_handle_stripped = my_collection_handle | strip | escape %}
+
+									{% for collection in collections %}
+									{% if my_collection_handle_stripped == collection.handle %}
+									{% assign its_a_match = true %}
+									{% endif %}
+									{% endfor %}
+
+									{% if its_a_match %}
+									<li class="vendor-list-item"><a href="{{ routes.collections_url }}/{{ product_vendor | handleize }}">{{ product_vendor }}</a></li>
+									{% else %}
+									<li class="vendor-list-item">{{ product_vendor | link_to_vendor }}</li>
+									{% endif %}
+									{% endfor %}
+								</ul>
+
+							</div>
+
+						{% when 'text' %}
+
+							<div class="collection-sidebar--section" {{ block.shopify_attributes }}>
+
+								<h2>{{ block.settings.title }}</h2>
+
+								{% if block.settings.richtext != blank %}
+								<svg class="chevron-right global-transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+								<div class="collection--sidebar--text--richtext">
+									{{ block.settings.richtext }}
+								</div>
+								{% endif %}
+
+							</div>
+
+						{% when 'menu' %}
+
+							{%- assign collection_linklist = block.settings.collection_linklist -%}
+							<div class="collection-sidebar--section" {{ block.shopify_attributes }}>
+								<h2>{{ block.settings.menu_title | escape }}</h2>
+								{% if linklists[collection_linklist].links.size > 0 %}
+								<svg class="chevron-right global-transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+								<ul>
+									{% for link in linklists[collection_linklist].links %}
+										<li class="collection-menu--list-item{% if link.object.tags and link.object.tags.size > 0 %} children{% endif %}">
+											<a href="{{link.url}}">{{link.title}}</a>
+										</li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</div>
+
+						{% when 'image' %}
+
+						{% if block.settings.collection-sidebar-image %}
+							<div class="collection-sidebar--section" {{ block.shopify_attributes }}>
+								{% if block.settings.collection-sidebar-link %}
+									<a href="{{ block.settings.collection-sidebar-link }}" itemprop="url">
+								{% endif %}
+								<div>
+									{% assign alt = block.settings.collection-sidebar-image.alt | default: shop.name %}
+									{% render 'responsive-image' with block.settings.collection-sidebar-image, alt: alt %}
+								</div>
+								{% if block.settings.collection-sidebar-link %}
+									</a>
+								{% endif %}
+							</div>
+						{% endif %}
+
+						{% endcase %}
+
+				{% endfor %}
+
+			</div>
+
+		{% endif %}
+
+{% endif %}
+
+
+
+{% if section.settings.enable_collection_sidebar and section.blocks.size > 0 %}
+	<div class="col-md-9">
+{% else %}
+	<div class="col-md-12">
+{% endif %}
+
+{%- assign is_empty_collection = false -%}
+
+      {% case section.settings.grid %}
+			{% when 2 %}
+			{%- assign grid_item_width = 'col-6 col-sm-6 col-md-6 two_columns' -%}
+			{%- assign grid_image_width = '600x600' -%}
+      {% when 3 %}
+      {%- assign grid_item_width = 'col-6 col-sm-4 col-md-4 three_columns' -%}
+      {%- assign grid_image_width = '600x600' -%}
+      {% when 4 %}
+      {%- assign grid_item_width = 'col-6 col-sm-6 col-md-3 four_columns' -%}
+      {%- assign grid_image_width = '600x600' -%}
+			{% when 5 %}
+			{%- assign grid_item_width = 'col-6 col-sm-6 col-md-2dot4 five_columns' -%}
+      {%- assign grid_image_width = '600x600' -%}
+			{% when 6 %}
+      {%- assign grid_item_width = 'col-6 col-sm-4 col-md-2 six_columns' -%}
+      {%- assign grid_image_width = '600x600' -%}
+      {% endcase %}
+
+      {%- capture olclasses -%}
+        {%- case section.settings.grid -%}
+            {%- when 2 -%}
+                {% cycle 'mobileCycle': ' alpha mobile-clear tablet-clear', ' omega' %} wow fadeInUp {% cycle 'animDelay': '', 'delay-1' %}
+            {%- when 3 -%}
+                {% cycle 'mobileCycle': ' alpha mobile-clear', '', ' mobile-clear omega', 'alpha', ' mobile-clear', ' omega' %} wow fadeInUp {% cycle 'animDelay': '', 'delay-1', 'delay-2' %}
+            {%- when 4 -%}
+                {% cycle 'mobileCycle': ' alpha mobile-clear tablet-clear', '', ' mobile-clear tablet-clear', ' omega' %} wow fadeInUp {% cycle 'animDelay': '', 'delay-1', 'delay-2', 'delay-3' %}
+            {%- when 5 -%}
+                {% cycle 'mobileCycle': ' alpha mobile-clear tablet-clear', '', ' mobile-clear tablet-clear', '', ' omega mobile-clear tablet-clear', ' alpha', ' mobile-clear tablet-clear', '', ' mobile-clear tablet-clear', ' omega' %} wow fadeInUp {% cycle 'animDelay': '', 'delay-1', 'delay-2', 'delay-3', 'delay-4' %}
+            {%- when 6 -%}
+                {% cycle 'mobileCycle': ' alpha mobile-clear tablet-clear', '', ' mobile-clear', ' tablet-clear', ' mobile-clear', ' omega' %} wow fadeInUp {% cycle 'animDelay': '', 'delay-1', 'delay-2', 'delay-3', 'delay-4', 'delay-5' %}
+        {%- endcase -%}
+      {%- endcapture -%}
+
+      <div id="AjaxinateContainer" class="row product-grid clearfix{% if settings.product-grid != 'natural' %} has-aspect-ratio{% else %} natural-images{% endif %}">
+        {% for product in collection.products %}
+          {% if product.variants.size > 1 %}
+            {% for option in product.options %}
+            	{% capture downcased_option %}{{ option | downcase }}{% endcapture %}
+                {% assign option_handle = option | handle %}
+                {% assign option_index = forloop.index0 %}
+                {% assign prod_id = product.id %}
+                {% assign color_option_name = settings.show_swatches | downcase %}
+            	{% if downcased_option == color_option_name %}
+            		{% assign values = '' %}
+            		{%- for variant in product.variants -%}
+                      {% assign variantID = variant.id %}
+                      {% assign value = variant.options[option_index] %}
+                      {% assign splitColor = value | handle %}
+                      {% capture wrapped_value %},{{ value }},{% endcapture %}
+                        {% unless values contains wrapped_value %}
+                          <ol data-color="{{ value | handle }}" class="grid__item {{ grid_item_width }} indiv-product-wrapper collection-image-anim {{ olclasses }}">
+                            <li>
+                              {%- render 'product-grid--display-colors', liquidObject: product , variantObject: variant , splitColor: splitColor  -%}
+                            </li>
+                          </ol>
+                        {% capture values %}{{ values }}{{ wrapped_value }}{% endcapture %}
+                        {% endunless %}
+                    {%- endfor -%}
+            	{%- endif -%}
+            {%- endfor -%}
+            {%- else -%}
+              <ol class="grid__item {{ grid_item_width }} indiv-product-wrapper collection-image-anim {{ olclasses }}">
+                <li>
+                  {%- render 'product-grid--display-colors', liquidObject: product -%}
+                </li>
+              </ol>
+          {%- endif -%}
+
+        {% else %}
+          {% comment %}
+          Add default products to help with onboarding for collections/all only.
+
+          The onboarding styles and products are only loaded if the
+          store has no products.
+          {% endcomment %}
+          {% if collection.handle == 'all' and collection.all_vendors.size == 0 and collection.all_types.size == 0 %}
+
+            {% for i in (1..8) %}
+
+            {%- capture alphaclasses -%}
+              {%- case section.settings.grid -%}
+                {%- when 2 -%}
+                  {% cycle 'alpha', 'omega' %}
+                {%- when 3 -%}
+                  {% cycle ' alpha', '', ' omega' %}
+                {%- when 4 -%}
+                  {% cycle ' alpha', '', '', ' omega' %}
+                {%- when 5 -%}
+                  {% cycle ' alpha', '', '', '', ' omega' %}
+                {%- when 6 -%}
+                  {% cycle ' alpha', '', '', '', '', ' omega' %}
+              {%- endcase -%}
+            {%- endcapture -%}
+
+            <div class="grid__item {{ grid_item_width }} indiv-product-wrapper {{ alphaclasses }}">
+
+                {% render 'product-grid--onboarding' %}
+
+            </div>
+            {% endfor %}
+          {% else %}
+            {%- assign is_empty_collection = true -%}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+    {% if is_empty_collection %}
+      <div class="grid__item small--text-center">
+        <p class="text-center">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+    {% endif %}
+
+    {% if paginate.pages > 1 %}
+      <div class="row justify-content-center">
+        {% if section.settings.pagination_type == 'paged_navigation' %}
+          {% render 'pagination', paginate: paginate  %}
+        {% elsif section.settings.pagination_type == 'infinite_scrolling' %}
+          <div id="AjaxinateInfiniteScrolling">
+            {% if paginate.next %}
+            <a href="{{ paginate.next.url }}">{{ 'collections.paginate.infinite_scrolling' | t }}</a>
+            {% endif %}
+          </div>
+        {% else %}
+          <div id="AjaxinateLoadMore">
+              {% if paginate.next %}
+              <a class="btn" href="{{ paginate.next.url }}">{{ 'collections.paginate.load_more' | t }}</a>
+              {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  	</div>
+	</div>
+</div>
+</div>
+
+{% endpaginate %}
+<div class="container">
+     <div class="subheader">
+        <h2>{{ collection.metafields.accentuate.sub_header }}</h2>
+      </div>
+      <div class="description_content" style="padding-bottom:40px;">
+         <p>{{ collection.metafields.accentuate.sub_content }}</p>
+      </div>
+  </div>
+  <script>
+    function redirect(){
+  		var val = document.getElementById("filter-dropdown").value;
+        let originPath = `${window.location.origin}`;
+        var collection = '{{ collection.handle }}';
+    	window.location.href = ""+originPath+"/collections/"+collection+"/"+val+"";
+    }
+  </script>
+  
+{% schema %}
+{
+    "name": {
+        "en": "Collection pages",
+        "de": "Kollektionsseiten",
+        "es": "Páginas de colecciones",
+        "fr": "Pages de collection",
+        "pt-PT": "Páginas de coleções"
+    },
+    "max_blocks": 6,
+    "settings": [
+				{
+						"type": "range",
+						"id": "grid",
+						"min": 2,
+						"max": 6,
+						"step": 1,
+						"label": {
+	            "en": "Products per row",
+	            "de": "Produkte pro Zeile",
+	            "es": "Productos por fila",
+	            "fr": "Produits par ligne",
+	            "pt-PT": "Produtos por linha"
+            },
+						"default": 4
+				},
+				{
+						"type": "range",
+						"id": "rows",
+						"min": 3,
+						"max": 8,
+						"step": 1,
+						"label": {
+							"en": "Rows per page",
+							"de": "Zeilen pro Seite",
+							"es": "Filas por página",
+							"fr": "Nombre de lignes par page",
+							"pt-PT": "Linhas por página"
+						},
+						"default": 6
+				},
+        {
+            "type": "checkbox",
+            "id": "collection_image_enable",
+            "label": {
+                "en": "Show collection image",
+                "de": "Kollektionsbild anzeigen",
+                "es": "Mostar la imagen de la colección",
+                "fr": "Afficher l'image de la collection",
+                "pt-PT": "Mostrar imagem da coleção"
+            },
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "sort_enable",
+            "label": {
+                "en": "Enable sorting",
+                "de": "Sortieren aktivieren",
+                "es": "Habilitar ordenado",
+                "fr": "Activer le tri",
+                "pt-PT": "Ativar seleção"
+            },
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "tags_enable",
+            "label": {
+                "en": "Enable tag filtering",
+                "de": "Tag-Filtern aktivieren",
+                "es": "Habilitar el filtrado por etiquetas",
+                "fr": "Activer le filtrage des balises",
+                "pt-PT": "Ativar filtro de etiquetas"
+            },
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": {
+                "en": "Pagination"
+            }
+        },
+        {
+            "type": "select",
+            "id": "pagination_type",
+            "label": {
+                "en": "Pagination type",
+                "de": "Seitenzählungsart",
+                "es": "Tipo de paginación",
+                "fr": "Type de pagination",
+                "pt-PT": "Tipo de paginação"
+            },
+            "default": "load_more",
+            "options": [
+                {
+                    "value": "paged_navigation",
+                    "label": {
+                        "en": "Paged navigation",
+                        "de": "Seitennummerierte Navigation",
+                        "es": "Navegación por páginas",
+                        "fr": "Navigation paginée",
+                        "pt-PT": "Navegação paginada"
+                    }
+                },
+                {
+                    "value": "infinite_scrolling",
+                    "label": {
+                        "en": "Infinite scrolling",
+                        "de": "Unendliches Scrolling",
+                        "es": "Desplazamiento continuo",
+                        "fr": "Défilé infini",
+                        "pt-PT": "Rolagem infinita"
+                    }
+                },
+                {
+                    "value": "load_more",
+                    "label": {
+                        "en": "Load more button",
+                        "de": "Schaltfläche 'Mehr anzeigen'",
+                        "es": "Cargar más botones",
+                        "fr": "Bouton Charger plus",
+                        "pt-PT": "Carregar mais botão"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "header",
+            "content": {
+                "en": "Sidebar",
+                "de": "Seitenleiste",
+                "es": "Barra lateral",
+                "fr": "Barre latérale",
+                "pt-PT": "Barra lateral"
+            }
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_collection_sidebar",
+            "label": {
+                "en": "Enable sidebar content",
+                "de": "Inhalte der Seitenleiste aktivieren",
+                "es": "Activar el contenido de la barra lateral",
+                "fr": "Activer le contenu de la barre latérale",
+                "pt-PT": "Permitir conteúdo na barra lateral"
+            },
+            "default": false,
+            "info": {
+                "en": "Create a sidebar by adding content blocks below.",
+                "de": "Erstellen Sie eine Seitenleiste, indem Sie unten Inhaltsblocks hinzufügen.",
+                "es": "Cree una barra lateral añadiendo los bloques de contenido más abajo.",
+                "fr": "Créez une barre latérale en ajoutant des blocs de contenu ci-dessous.",
+                "pt-PT": "Crie uma barra lateral adicionando blocos de conteúdo abaixo."
+            }
+        }
+    ],
+    "blocks": [
+        {
+            "type": "text",
+            "name": {
+                "en": "Text",
+                "de": "Text",
+                "es": "Texto",
+                "fr": "Texte",
+                "pt-PT": "Texto"
+            },
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": {
+                        "en": "Heading",
+                        "de": "Überschrift",
+                        "es": "Encabezado",
+                        "fr": "Rubrique",
+                        "pt-PT": "Título"
+                    },
+                    "default": {
+											"en": "Title",
+											"de": "Titel",
+											"es": "Título",
+											"fr": "Titre",
+											"pt-PT": "Título"
+                    }
+                },
+                {
+                    "type": "richtext",
+                    "id": "richtext",
+                    "label": {
+                        "en": "Text",
+                        "de": "Text",
+                        "es": "Texto",
+                        "fr": "Texte",
+                        "pt-PT": "Texto"
+                    },
+                    "default": {
+                        "en": "<p>Share details about promotions or important messages with your customers.</p>",
+                        "de": "<p>Teilen Sie Einzelheiten über Werbeaktionen oder wichtige Nachrichten mit Ihren Kunden.</p>",
+                        "es": "<p>Comparta detalles sobre promociones o mensajes importantes con sus clientes.</p>",
+                        "fr": "<p>Partagez les détails des promotions ou des messages importants avec vos clients.</p>",
+                        "pt-PT": "<p>Partilhe detalhes sobre promoções ou mensagens importantes com os seus clientes.</p>"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "vendors",
+            "name": {
+                "en": "Vendors",
+                "de": "Verkäufer",
+                "es": "Vendedores",
+                "fr": "Vendeurs",
+                "pt-PT": "Vendedores"
+            },
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": {
+                        "en": "Heading",
+                        "de": "Überschrift",
+                        "es": "Encabezado",
+                        "fr": "Rubrique",
+                        "pt-PT": "Título"
+                    },
+                    "default": {
+                        "en": "Vendors",
+                        "de": "Verkäufer",
+                        "es": "Vendedores",
+                        "fr": "Vendeurs",
+                        "pt-PT": "Vendedores"
+                    }
+                }
+            ]
+        },
+        {
+            "type": "menu",
+            "name": {
+                "en": "Menu",
+                "de": "Menü",
+                "es": "Menú",
+                "fr": "Menu",
+                "pt-PT": "Menu"
+            },
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "menu_title",
+                    "label": {
+                        "en": "Heading",
+                        "de": "Überschrift",
+                        "es": "Encabezado",
+                        "fr": "Rubrique",
+                        "pt-PT": "Título"
+                    },
+                    "default": {
+                        "en": "Links",
+                        "de": "Links",
+                        "es": "Enlaces",
+                        "fr": "Liens",
+                        "pt-PT": "Ligações"
+                    }
+                },
+                {
+                    "type": "link_list",
+                    "id": "collection_linklist",
+                    "label": {
+                        "en": "Menu",
+                        "de": "Menü",
+                        "es": "Menú",
+                        "fr": "Menu",
+                        "pt-PT": "Menu"
+                    },
+                    "default": "main-menu"
+                }
+            ]
+        },
+        {
+            "type": "image",
+            "name": {
+                "en": "Image",
+                "de": "Bild",
+                "es": "Imagen",
+                "fr": "Image",
+                "pt-PT": "Imagem"
+            },
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "collection-sidebar-image",
+                    "label": {
+                        "en": "Image",
+                        "de": "Bild",
+                        "es": "Imagen",
+                        "fr": "Image",
+                        "pt-PT": "Imagem"
+                    },
+                    "info": {
+                        "en": "300 x 150px recommended",
+                        "de": "300 x 150 px empfohlen",
+                        "es": "Recomendado 300 x 150 px",
+                        "fr": "300 x 150 px recommandé",
+                        "pt-PT": "300 x 150px, recomendado"
+                    }
+                },
+                {
+                    "type": "url",
+                    "id": "collection-sidebar-link",
+                    "label": {
+                        "en": "Link",
+                        "de": "Link",
+                        "es": "Enlace",
+                        "fr": "Lien",
+                        "pt-PT": "Ligação"
+                    },
+                    "info": {
+                        "en": "Optional",
+                        "de": "Optional",
+                        "es": "Opcional",
+                        "fr": "Facultatif",
+                        "pt-PT": "Opcional"
+                    }
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+/* Undo background and gradient */
+body, #main, #container, #header, #footer {
+  background: #fff !important;
+}
+
+/* Undo overview background and borders */
+#main #overview {
+  background: #fff;
+  border: none;
+}
+#main #overview > * {
+  border: none;
+}
+#main #thumbs div {
+  border: none;
+}
+
+/* Insert your own logo (upload separately) */
+#logo { 
+  height: 160px;
+  background: url({{ 'logo_compact.png' | asset_url | replace: 'http://','https://' }}) center no-repeat;
+}
+
+#header > h1{
+  text-align:center;
+}
+
+/* Hide the name of the store because we got this nifty logo now */
+
+#header > h1 span.title {
+  display:none;
+}
+
+#cost, #order-num{
+	color: #333;
+}
+
+.btn, .sp-modal-toggle {
+    cursor: pointer;
+    display: inline-block;
+    background-color: #395775;
+    background-clip: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px transparent solid;
+    border-radius: 5px;
+    color: white;
+    font-weight: 500;
+    padding: 1.4em 1.7em;
+    text-align: center;
+    position: relative;
+    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out;
+}

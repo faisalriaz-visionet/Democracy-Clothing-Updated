@@ -1,0 +1,48 @@
+{% comment %} Added by Plus FED on February 04, 2021 {% endcomment %}
+<style>
+  .cart-drawer--title {
+    font-size: {{ settings.plus_cart_title_size }}px;
+  }
+
+  #plus--cart-drawer__title {
+    padding-top: {{ settings.plus_cart_title_padding_top }}px;
+    padding-bottom: {{ settings.plus_cart_title_padding_bottom }}px;
+  }
+
+  #cart-price {
+    font-size: {{ settings.plus_total_price_size }}px;
+  }
+
+  #plus--cart-drawer__total_value {
+    font-size: {{ settings.plus_total_cart_value_size }}px;
+  }
+  
+  .cart-items::-webkit-scrollbar {
+    {% if settings.plus_scrollbar_width == 'wide' %}
+      width: 18px;
+    {% elsif settings.plus_scrollbar_width == 'narrow' %}
+      width: 10px;
+    {% else %}
+      width: auto;
+    {% endif %}
+  }
+  
+  .slideout-open .slideout-menu {
+    overflow-x: hidden;
+}
+ 
+  .cart-items::-webkit-scrollbar-thumb {
+    background: {{ settings.plus_cart_scrollbar_thumb_color }};
+    border-radius: {{ settings.plus_scrollbar_thumb_radius }}px;
+  }
+
+  #plus--cart-drawer__continue-shopping {
+    margin-bottom: 0;
+  }
+
+  .slide-checkout-buttons {
+    margin-top: {{ settings.plus_button_section_margin_top }}px;
+    margin-bottom: {{ settings.plus_button_section_margin_bottom }}px;
+  }
+  [data-shopify="dynamic-checkout-cart"]{display:none;}
+</style>

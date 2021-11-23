@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+<head>
+   <meta name="facebook-domain-verification" content="qi5pr9ey7qc2vc30ws8qb3hua5ze1r" />
+    
+    <meta name="p:domain_verify" content="9451ce8126a47e7d2e1f42b25c304b69"/>
+	<meta charset="utf-8">
+
+	<!--[if lt IE 9]>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<title>
+		{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+	</title>
+  
+	<meta name="google-site-verification" content="Bi4cNuTCAO32UdT2Ypi8Dg-osTIj6JYmV03YBSfSLi4" />
+
+	<script type="text/javascript">
+		document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+	</script>
+
+	{% if page_description %}
+	<meta name="description" content="{{ page_description | escape }}">
+	{% endif %}
+
+	{% if template contains 'product' %}
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+	{% else %}
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	{% endif %}
+
+	{% render 'social-meta-tags' %}
+	{% render 'css-variables' %}
+
+	<link rel="canonical" href="{{ canonical_url }}" />
+
+	<!-- CSS -->
+	{% render 'css-variables' %}
+
+	{% if template == 'index' %}
+  		<link rel="preload" href="{{ 'theme-index.css' | asset_url }}" as="style">
+		{{ 'theme-index.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'collection' %}
+	    <link rel="preload" href="{{ 'theme-collection.min.css' | asset_url }}" as="style">
+	    {{ 'theme-collection.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'list-collections' %}
+	    <link rel="preload" href="{{ 'theme-collection-list.min.css' | asset_url }}" as="style">
+	    {{ 'theme-collection-list.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'product' %}
+		<link rel="preload" href="{{ 'theme-product.min.css' | asset_url }}" as="style">
+	  	{{ 'theme-product.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'blog' %}
+		<link rel="preload" href="{{ 'theme-blog.min.css' | asset_url }}" as="style">
+	  	{{ 'theme-blog.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'cart' %}
+		<link rel="preload" href="{{ 'theme-cart.min.css' | asset_url }}" as="style">
+	  	{{ 'theme-cart.min.css' | asset_url | stylesheet_tag }}
+	{% else %}
+		<link rel="preload" href="{{ 'theme.min.css' | asset_url }}" as="style">
+	  	{{ 'theme.min.css' | asset_url | stylesheet_tag }}
+	{% endif %}
+
+	{{ 'custom.css' | asset_url | stylesheet_tag }}
+	{{ 'democracy-clothing.css' | asset_url | stylesheet_tag }}
+	{% render 'font-links' %}
+
+	{% if settings.favicon != blank %}
+		<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+	{% endif %}
+
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- GTM Scripts Start -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                                                          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                                })(window,document,'script','dataLayer','GTM-PWFX4F7');</script>
+    <!-- End Google Tag Manager -->
+    <!-- GTM Scripts End -->
+  
+	{{ content_for_header }}
+
+	<script type="text/javascript">
+	window.lazySizesConfig = window.lazySizesConfig || {};
+	window.lazySizesConfig.rias = window.lazySizesConfig.rias || {};
+
+	// configure available widths to replace with the {width} placeholder
+	window.lazySizesConfig.rias.widths = [150, 300, 600, 900, 1200, 1500, 1800, 2100];
+
+	window.wetheme = {
+		name: 'Envy',
+	};
+	</script>
+
+	{% if template contains 'customers' %}
+		{{ "shopify_common.js" | shopify_asset_url | script_tag }}
+		{{ "customer_area.js" | shopify_asset_url | script_tag }}
+	{% endif %}
+
+	<script defer type="module" src="{{ 'theme.js' | asset_url }}"></script>
+	<script defer nomodule src="{{ 'theme.legacy.min.js' | asset_url }}"></script>
+  
+     {% comment %} Please do not remove. Google Site verification for GSC {% endcomment %}
+    <meta name="google-site-verification" content="bd7BttMYwPUgVzgrhPx8APIWjg49ygpkeNlfjc25dAo" />
+    <link href="//cdn.shopify.com/s/files/1/0045/3915/4481/t/22/assets/yotpo-full-css.css?v=15398941425937235211" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript">
+      (function e(){var e=document.createElement("script");e.type="text/javascript",e.async=true,e.src="//staticw2.yotpo.com/tiOQg1c9JGcDlrcxx5iTu5JAJJDBJvgm0Riknugm/widget.js";var t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+    </script>
+  
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    {% if template contains 'rewards' or template contains 'refer' or template contains 'account' %}
+    {{ '//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css' | stylesheet_tag }}
+    {{ '//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css' | stylesheet_tag }}
+    {{ '//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js' | script_tag }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
+    {{ 'swell-rewards.js' | asset_url | script_tag }}
+    {{ 'swell-rewards.scss.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    {{ 'swell-gift-item.js' | asset_url | script_tag }}
+  <script src="https://cdn-widgetsrepository.yotpo.com/v1/loader/ffr_ey6agTkD3aDHHqx7ag" async></script>
+{%- if product -%}{%- assign discountninjaproduct = product -%}{%- endif -%}{%- if collection -%}{%- assign discountninjacollection = collection -%}{%- endif -%}
+{%- if product -%}{%- assign discountninjaproduct = product -%}{%- endif -%}{%- if collection -%}{%- assign discountninjacollection = collection -%}{%- endif -%}
+<script id="sg-js-global-vars">
+                        sgGlobalVars = {{ shop.metafields['sg-cc']['sg-metafield'] | json }};
+                        if(sgGlobalVars) {
+                            sgGlobalVars.cart = {{ cart | json }};
+                            sgGlobalVars.currentProduct = {{ product | json }};
+                            sgGlobalVars.isAdmin = {% if content_for_header contains 'adminBarInjector' or content_for_header contains 'previewBarInjector' %}true{% else %}false{% endif %};
+                        }
+                    </script>{% render 'limoniapps-discountninja-header' %}{%- if product -%}{%- assign discountninjaproduct = product -%}{%- endif -%}{%- if collection -%}{%- assign discountninjacollection = collection -%}{%- endif -%}
+</head>
+
+<body
+	id="{{ page_title | handle }}"
+	class="page-title--{{ page_title | handle }} {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }} flexbox-wrapper{% unless settings.animations_enabled %} animations-disabled{% endunless %}"
+>
+
+	{% if template != 'cart' %}
+		{% render 'cart-drawer' %}
+	{% endif %}
+
+	<div id="main-body">
+
+		<div id="slideout-overlay"></div>
+
+		{% section 'announcement-bar' %}
+		{% section 'header' %}
+
+		<main id="main">
+
+			{% unless template == "index" or template == "collection" %}
+				<div class="container">
+			{% endunless %}
+
+			{{ content_for_layout }}
+
+			{% unless template == "index" or template == "collection" %}
+				</div>
+			{% endunless %}
+
+		</main>
+
+		{% section 'footer' %}
+	</div>
+
+	{% render 'verification-popup' %}
+	{% render 'popup' %}
+
+	<script type="application/json" id="wetheme-global">
+		{
+			{% comment %}Translations that will be used in javascript section handling{% endcomment %}
+			"translations": {
+				"addToCart": {{ 'products.product.add_to_cart' | t | json }},
+				"added": {{ 'products.product.added' | t | json }},
+				"soldOut": {{ 'products.product.sold_out' | t | json }},
+				"unavailable": {{ 'products.product.unavailable' | t | json }},
+				"makeASelection": {{ 'products.product.make_a_selection' | t | json }},
+				"showMore": {{ 'general.filters.show_more' | t | json }},
+				"showLess": {{ 'general.filters.show_less' | t | json }},
+				"saving": {{ 'products.general.saving' | t | json }},
+				"products": {{ 'general.search.products' | t | json }},
+		        "pages": {{ 'general.search.pages' | t | json }},
+		        "collections": {{ 'general.search.collections' | t | json }},
+		        "articles": {{ 'general.search.articles' | t | json }},
+		        "loading": {{ 'collections.paginate.loading' | t | json }},
+		        "no_results_html": {{ 'general.search.no_results_html' | t | json }},
+		        "view_all": {{ 'general.search.view_all' | t | json }},
+		        "clear": {{ 'general.search.clear' | t | json }},
+		        "cart_title": {{ 'cart.general.title' | t | json }},
+		        "cart_subtotal": {{ 'cart.general.subtotal' | t | json }},
+		        "added_to_cart": {{ 'cart.general.added_to' | t | json }},
+		        "removed_from_cart": {{ 'cart.general.removed_from' | t | json }},
+		        "cart_item": {{ 'cart.general.item' | t | json }},
+		        "slide": {{ 'general.slider.slide' | t | json }},
+		        "pause": {{ 'general.slider.pause' | t | json }},
+		        "search_found": {{ 'general.search.search_found' | t | json }},
+		        "none_found": {{ 'general.search.none_found' | t | json }},
+		        "search_result": {{ 'general.search.search_result' | t | json }},
+		        "search_result_plural": {{ 'general.search.search_result_plural' | t | json }}
+			},
+			"moneyFormat": {{ shop.money_format | json }}
+		}
+	</script>
+ <script src="{{ 'democracy-clothing.min.js' | asset_url }}"></script>
+  
+  <script src="https://a.klaviyo.com/media/js/onsite/onsite.js"></script>
+    <script>
+      var klaviyo = klaviyo || [];
+      klaviyo.init({
+        account: "LuTJ86",
+        platform: "shopify"
+      });
+      klaviyo.enable("backinstock",{ 
+        trigger: {
+          product_page_text: "Notify Me When Available",
+          product_page_class: "btn",
+          product_page_text_align: "center",
+          product_page_margin: "0px",
+          replace_anchor: false
+        },
+        modal: {
+          headline: "{product_name}",
+          body_content: "Register to receive a notification when this item comes back in stock.",
+          email_field_label: "Email",
+          button_label: "Notify me when available",
+          subscription_success_label: "You're in! We'll let you know when it's back.",
+          footer_content: '',
+          additional_styles: "@import url('https://fonts.googleapis.com/css?family=Helvetica+Neue');",
+          drop_background_color: "#000",
+          background_color: "#fff",
+          text_color: "#222",
+          button_text_color: "#fff",
+          button_background_color: "#439fdb",
+          close_button_color: "#ccc",
+          error_background_color: "#fcd6d7",
+          error_text_color: "#C72E2F",
+          success_background_color: "#d3efcd",
+          success_text_color: "#1B9500"
+        }
+      });
+    </script>
+    <!--     <script>if (!window.jQuery) { document.write("<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>"); }
+</script> -->
+
+    <script>
+      // add SMS checkbox
+      $(document).on('ready page:load page:change', function() {
+        //console.log('page load triggered');
+        if (Shopify.Checkout.step === 'contact_information') {
+          //console.log(‘on contact info step');
+          if($("#checkout_accept_sms").length<1){
+
+            $('<div class="fieldset"><div class="checkbox-wrapper" style="padding-top: 6px;padding-bottom: 0px;padding-left: 6px;"><div class="checkbox__input"><input id="checkout_attributes" type="hidden" name="checkout[attributes][smsOptIn]" value="SMS:True"><input class="input-checkbox" type="checkbox" value="1" checked="checked" id="checkout_accept_sms"></div><label class="checkbox__label" for="checkout_accept_sms">Receive support and offers via text message (enter <em>your</em> phone number)</label></div></div>').insertAfter($(".section--shipping-address").eq(0));              
+
+            $("#checkout_accept_sms").on("change",function(){
+              //console.log('change value triggered');
+              var cn =  $("#checkout_attributes").val();
+              cn = cn.replace(/SMS:(True|False)/gi, "");
+              cn += $(this).prop('checked') ? "SMS:True" : "SMS:False";
+              $("#checkout_attributes").val(cn);
+            });
+          }
+
+        }
+      });
+    </script>
+    {% comment %} <!-- Insert QuadPay Widget Lite --> {% endcomment %}
+    <script>
+      window.QuadPayShopifyOptions = {
+        productOptions: {
+          position: ".product-page--pricing",
+          widget: {
+            size: "90%"
+          }
+        },
+        minicartRule: {
+          price: "#cart-price",
+          position: "#cart-price",
+          section: ".ajax-cart--bottom-wrapper"
+        },
+        minicartOptions: {
+          widget: {
+            size: "80%",
+            alignment: "center"
+          },
+          container: {
+            style: "margin: 0 20px 10px;"
+          }
+        },
+        cartOptions: {
+          widget: {
+            size: "80%"
+          }
+        }
+      }
+    </script>
+    <script src="https://widgets.quadpay.com/quadpay-shopify.js" defer="defer"></script>
+    
+    <script src="https://cdn.attn.tv/democracy/dtag.js"></script>
+
+{% include 'limoniapps-discountninja-body' %}
+</body>
+
+</html>

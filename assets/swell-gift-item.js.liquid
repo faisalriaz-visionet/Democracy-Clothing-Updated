@@ -1,0 +1,124 @@
+var isVisited = false;
+jQuery(document).ready(function() {
+  if(jQuery("#cartSlideoutWrapper").length > 0) {
+    const targetNode = document.getElementById('cartSlideoutWrapper');
+    const config = { attributes: true, childList: true, subtree: true };
+    const callback = function(mutationsList, observer) {
+      if(typeof(spapi) != "undefined") {
+        SwellConfig.setupGiftProduct.checkforGiftItem();
+      }
+    };
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+  }
+  jQuery(document).on("swell:setup", function() {
+    SwellConfig.setupGiftProduct.checkforGiftItem();
+      jQuery('body').on('click','.swellGiftItem',function(){
+      spapi.$.confirm({
+          title: "Oops!",
+          content: "Limit 1 Free Item.",
+          type: "red",
+          typeAnimated: true,
+          useBootstrap: false,
+          boxWidth: "300px",
+          buttons: {
+            ok: {
+              text: "Ok",
+              action: function () {}
+            }
+          }
+        })
+      });
+  });
+});
+
+(function() {
+  window.SwellConfig = window.SwellConfig || {};
+  SwellConfig.setupGiftProduct = {
+  	checkforGiftItem:()=>{
+  		var SWELL_TIER_TAG = "swell_vip_elevate";
+      if(typeof(spapi) != "undefined") {
+        if(spapi.authenticated && spapi.customer.tags && spapi.customer.tags.includes(SWELL_TIER_TAG)){
+          var SWELL_PRODUCT_VARIANT_ID = 32183758061617;
+    			var addItem = true;
+          jQuery.getJSON("/cart.js",function(response){
+            var cartproducts = response.items;
+            if(cartproducts.length > 0) {
+              cartproducts.forEach(function (cp) {
+
+                if(cp.variant_id == SWELL_PRODUCT_VARIANT_ID && (cp.properties && cp.properties["_swell_free-product"])){
+                  if(cartproducts.length == 1) {
+                    if(cp.properties && cp.properties["_swell_free-product"]) {
+                      SwellConfig.setupGiftProduct.clearCart();
+                      isVisited = false;
+                    }
+                  }
+                  addItem = false;
+                  }
+              });
+              if(addItem && isVisited == false){
+                isVisited=true;
+                SwellConfig.setupGiftProduct.addProductToCart(SWELL_PRODUCT_VARIANT_ID);
+              }
+            }
+          });
+        }
+      }
+  	},
+    addProductToCart:(variant_id)=>{
+     jQuery.post('/cart/add.js', {
+        items: [
+          {
+            quantity: 1,
+            id: 32183758061617,
+            properties: {
+              '_swell_free-product' : 'added'
+            }
+          }
+        ],
+        success:function() {
+          setTimeout(function() {
+            location.reload();
+          }, 500);
+        },
+        error:function(){
+          console.log("can't add free gift to cart");
+        }
+      });
+    },
+    clearCart:()=>{
+      if(window.location.href.indexOf("cart") > -1) {
+        window.location = '/cart/clear';
+      }
+      else {
+        jQuery.post('/cart/clear.js', {
+          "note": null,
+          "attributes": {},
+          "total_price": 0,
+          "total_weight": 0,
+          "item_count": 0,
+          "items": [],
+          "requires_shipping": false,
+          success: function(res){
+            setTimeout(function() {
+              window.location.reload();
+            }, 500);
+          }
+        });
+      }
+    }
+  };
+}).call(this);
+
+window.swellItemCheck = function() {
+  if(jQuery('.swellGiftItem').length > 0){
+    jQuery('.swellGiftItem button').remove();
+    jQuery('.swellGiftItem ').prepend('<span class="swell-button-gift">-</span>');
+    jQuery('.swellGiftItem ').append('<span class="swell-button-gift">+</span');
+    jQuery('.swellGiftItem .swell-button-gift').css('opacity', 0.4);
+    jQuery('.swellGiftItem input').css('opacity', 0.4);
+    jQuery('.swellGiftItem input').attr('disabled', true);
+    jQuery('.swellGiftItem').parent().prepend('<div class="swell-gift-limit-msg" style="font-size:12px;">Limit 1 Free Item</div>');
+
+  }
+}

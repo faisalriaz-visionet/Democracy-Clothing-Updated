@@ -1,0 +1,55 @@
+<div class="swell-rewards-democracy-clothing">
+  <div class="referral-section">
+    <!-- Referral Section Code Start -->
+      <div class="referral-section-holder">
+        <div class="referral-image-content">
+          <div class="swell-referral-image-holder">
+            <img class="swell-referral-image swell-mobile" src="{{'swell-refer-logout-mob.jpg' | asset_url }}">
+            <img class="swell-referral-image swell-desktop" src="{{'swell-refer-logout.jpg' | asset_url }}">
+            <div class="swell-referral-copy-form-wrapper" id="swell-referral-link-container">
+            </div>
+          </div>
+        </div>
+        <div class="swell-referral-holder">
+          <div class="swell-referral">
+            <div class="swell-referral-loader">
+              <img src="{{ 'swell-loader-brighter.svg' | asset_url }}"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      {% if customer %}
+        <div class="referral-history-section">
+          <div class="history-image-content">
+            <div class="swell-referral-image-holder">
+            <img class="swell-referral-image swell-desktop" src="{{'swell-referral-history.jpg' | asset_url }}">
+              <img class="swell-referral-image swell-mobile" src="{{'swell-referral-history-mob.jpg' | asset_url }}">
+            </div>
+          </div>
+          <div class="referral-content">
+            <div class="referral-content-holder">
+                <div class="swell-referral-heading section-heading">
+                  <h2 class="swell-heading">Your Referrals</h2>
+                </div>
+                <div class="table-classes">
+                    <div class="swell-table-responsive">
+                        <table class="swell-referral-table">
+                            <thead><tr><th>Email</th><th>Status</th></tr></thead>
+                            <tbody class="table-data"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="redeem-point">
+                    <div class="swell-referral-heading">
+                        <h2 class="swell-heading">How do I redeem my rewards balance?</h2>
+                        <p class="swell-detail">Now, the fun part! Simply redeem the points you've earned directly at checkout.</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- Referral Section Code End -->
+  </div>
+</div>
