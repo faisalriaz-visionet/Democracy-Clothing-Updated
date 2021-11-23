@@ -272,39 +272,6 @@
         }
       });
     </script>
-    {% comment %} <!-- Insert QuadPay Widget Lite --> {% endcomment %}
-    <script>
-      window.QuadPayShopifyOptions = {
-        productOptions: {
-          position: ".product-page--pricing",
-          widget: {
-            size: "90%"
-          }
-        },
-        minicartRule: {
-          price: "#cart-price",
-          position: "#cart-price",
-          section: ".ajax-cart--bottom-wrapper"
-        },
-        minicartOptions: {
-          widget: {
-            size: "80%",
-            alignment: "center"
-          },
-          container: {
-            style: "margin: 0 20px 10px;"
-          }
-        },
-        cartOptions: {
-          widget: {
-            size: "80%"
-          }
-        }
-      }
-    </script>
-    <script src="https://widgets.quadpay.com/quadpay-shopify.js" defer="defer"></script>
-    
-    <script src="https://cdn.attn.tv/democracy/dtag.js"></script>
 
 {% include 'limoniapps-discountninja-body' %}
 </body>
