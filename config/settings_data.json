@@ -152,16 +152,34 @@
               "vertical-alignment": "middle"
             }
           },
-          "5b5cfd77-a570-4fa8-a2b0-b436f69c4cba": {
+          "05701627-4067-45ca-b2a9-8225475aea68": {
             "type": "slide",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Fall_Shades_Of_Blue_Democracy_Clothing.jpg",
-              "mobile_image": "shopify:\/\/shop_images\/Democracy_Clothing_Fall_Shades_Of_Blue.jpg",
+              "image": "shopify:\/\/shop_images\/HomeSlider-fade-to-jean-heart.jpg",
+              "mobile_image": "shopify:\/\/shop_images\/HomeSlider-fade-to-jean-heart-mobile.jpg",
               "subheading": "",
               "title": "",
               "text": "",
               "button_text": "",
-              "link": "shopify:\/\/collections\/shades-of-blue-fall-blues",
+              "link": "https:\/\/act.alz.org\/site\/Donation2?df_id=6540&FR_ID=1170&PROXY_ID=19550&PROXY_TYPE=31&6540.donation=form1&_gl=1*pn7m74*_ga*MTczOTk5Mzk3OS4xNjM3MDIwOTcy*_ga_9JTEWVX24V*MTYzNzYxNjM2Ny43LjEuMTYzNzYxNzM1Ni4w&_ga=2.53208225.882376098.1637600941-1739993979.1637020972",
+              "caption-background": "rgba(0,0,0,0)",
+              "caption-text": "#ffffff",
+              "button-text": "#ffffff",
+              "button-background": "#000000",
+              "horizontal-alignment": "left",
+              "vertical-alignment": "middle"
+            }
+          },
+          "6f8b5a5b-8a2d-4421-a37d-d35eab9a55cf": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Perfect_For_Gift_Giving_Demoracy_Clothing_Cozy_Outerwear_Jackets.jpg",
+              "mobile_image": "shopify:\/\/shop_images\/Democracy_Clothing_Cozy_Outerwear_Jackets_Perfect_For_Gift_Giving.jpg",
+              "subheading": "",
+              "title": "",
+              "text": "",
+              "button_text": "",
+              "link": "shopify:\/\/collections\/jackets",
               "caption-background": "rgba(0,0,0,0)",
               "caption-text": "#ffffff",
               "button-text": "#ffffff",
@@ -206,16 +224,16 @@
               "vertical-alignment": "middle"
             }
           },
-          "29cfa2f4-3be0-4fc8-b2e9-e372ab91a6a6": {
+          "5b5cfd77-a570-4fa8-a2b0-b436f69c4cba": {
             "type": "slide",
             "settings": {
-              "image": "shopify:\/\/shop_images\/Democracy-Clothing-Womens-Fall-Fashion-New-Arrivals.jpg",
-              "mobile_image": "shopify:\/\/shop_images\/Democracy-Clothing-Womens-Fall-Fashion-Clothing-New-Arrivals.jpg",
+              "image": "shopify:\/\/shop_images\/Fall_Shades_Of_Blue_Democracy_Clothing.jpg",
+              "mobile_image": "shopify:\/\/shop_images\/Democracy_Clothing_Fall_Shades_Of_Blue.jpg",
               "subheading": "",
               "title": "",
               "text": "",
               "button_text": "",
-              "link": "shopify:\/\/collections\/new-arrivals",
+              "link": "shopify:\/\/collections\/shades-of-blue-fall-blues",
               "caption-background": "rgba(0,0,0,0)",
               "caption-text": "#ffffff",
               "button-text": "#ffffff",
@@ -241,34 +259,16 @@
               "horizontal-alignment": "left",
               "vertical-alignment": "middle"
             }
-          },
-          "6f8b5a5b-8a2d-4421-a37d-d35eab9a55cf": {
-            "type": "slide",
-            "settings": {
-              "image": "shopify:\/\/shop_images\/Perfect_For_Gift_Giving_Demoracy_Clothing_Cozy_Outerwear_Jackets.jpg",
-              "mobile_image": "shopify:\/\/shop_images\/Democracy_Clothing_Cozy_Outerwear_Jackets_Perfect_For_Gift_Giving.jpg",
-              "subheading": "",
-              "title": "",
-              "text": "",
-              "button_text": "",
-              "link": "shopify:\/\/collections\/jackets",
-              "caption-background": "rgba(0,0,0,0)",
-              "caption-text": "#ffffff",
-              "button-text": "#ffffff",
-              "button-background": "#000000",
-              "horizontal-alignment": "left",
-              "vertical-alignment": "middle"
-            }
           }
         },
         "block_order": [
           "851563f5-0500-49c2-808c-66a5f376facb",
-          "5b5cfd77-a570-4fa8-a2b0-b436f69c4cba",
+          "05701627-4067-45ca-b2a9-8225475aea68",
+          "6f8b5a5b-8a2d-4421-a37d-d35eab9a55cf",
           "image--slideshow-1",
           "30382a22-372b-40a1-9c12-acab8f03f0c3",
-          "29cfa2f4-3be0-4fc8-b2e9-e372ab91a6a6",
-          "2411b629-623b-4db7-83c6-9967c94014bd",
-          "6f8b5a5b-8a2d-4421-a37d-d35eab9a55cf"
+          "5b5cfd77-a570-4fa8-a2b0-b436f69c4cba",
+          "2411b629-623b-4db7-83c6-9967c94014bd"
         ],
         "settings": {
           "slider-animation": "slide",
